@@ -5,9 +5,9 @@
 
 function analyzeLayers(parent){
     if (parent == undefined) {
-        return "Reading Main Document";
+        return app.activeDocument.Layers.sort;
     } else {
-        return "Reading layers under " + parent;
+        return app.activeDocument.Layers.sort;
     }
 }
 
