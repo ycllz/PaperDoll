@@ -3,11 +3,27 @@
 
 //Use for all code that deals with Photoshop elements
 
-function analyzeLayers(parent){
-    if (parent == undefined) {
-        return app.activeDocument.Layers.sort;
+function getLayers(pathArray) {
+    if (pathArray == undefined) {
+        var source = app.activeDocument;
     } else {
-        return app.activeDocument.Layers.sort;
+        var source = findLayer(pathArray);
+    }
+    
+    var Result = new Array;
+    for (var i = 0, len = source.layers.length; i < len; i++) {
+        Result.push(source.layers[i].name);
+    }
+    return Result;
+}
+
+function findLayer(pathArray, layerArray) {
+    if (layerArray == undefined) layerArray = app.activeDocument.layers;
+    var layer = pathArray.shift();
+    if (pathArray.length == undefined) {
+        return layerArray.getByName(layer);
+    } else {
+        return findLayer(pathArray, layerArray.getByName(layer));
     }
 }
 
