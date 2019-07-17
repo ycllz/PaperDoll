@@ -4,16 +4,15 @@
 //Use for all code that updates HTML frame
 
 (function () {
+    //To Call Photoshop Function - csInterface.evalScript('function + parameters')
     'use strict';
 
     var csInterface = new CSInterface();
-    //To Call Photoshop Function - csInterface.evalScript('function + parameters')
     function init() {
                 
         initColors();
         
         document.getElementById('btn_analyze').addEventListener('click', function(){
-            //csInterface.evalScript('analyzeLayers()');
             var val = csInterface.evalScript('analyzeLayers()', function(result) {
                 test(result,"div_doc");
             })
@@ -25,6 +24,5 @@
     }
 
     init();
-
 }());
     
