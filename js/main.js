@@ -12,17 +12,22 @@
                 
         initColors();
         
-        document.getElementById('btn_analyze').addEventListener('click', function(){
-            var val = csInterface.evalScript('getLayers()', function(result) {
-                var layers = result.split(",");
-                for (var i = 0, len = layers.length; i < len; i++) {
-                    analyze(layers[i]);
-                }
-            })
+        document.getElementById('btn_analyze').addEventListener('click', analyze);
+    }
+
+    function analyze() {
+        csInterface.evalScript('getLayers()', function(result) {
+            var layers = result.split(",");
+            let pathArray = [];
+            for (var i = 0, len = layers.length; i < len; i++) {
+                pathArray[0] = layers[i];
+                parseLayer(pathArray);
+            }
         });
     }
 
-    function analyze(layer) {
+    function parseLayer(pathArray) {
+        var layer = pathArray[pathArray.length - 1];
         switch (true) {
             case layer.startsWith("$"):
                 test("Static","div_doc");
