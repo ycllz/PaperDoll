@@ -27,6 +27,10 @@ function findLayer(pathArray, layerArray) {
     }
 }
 
+function makeVisible(pathArray) {
+    findLayer(pathArray).visible = true;
+}
+
 function test() {
     alert("Test is working");
 }

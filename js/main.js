@@ -33,7 +33,8 @@
         var layer = pathArray[pathArray.length - 1];
         switch (true) {
             case layer.startsWith("$"):
-                test("Static","div_doc");
+                csInterface.evalScript('makeVisible('+JSON.stringify(pathArray)+')');
+                analyze(pathArray);
                 break;
             case layer.startsWith("%"):
                 test("Toggle","div_doc");
@@ -46,13 +47,14 @@
                 analyze(pathArray);
                 break;
             case layer.startsWith("*"):
-                test("Option","div_doc");
+                test("Option: " + layer,"div_doc");
                 break;
         }
+        //analyze(pathArray);
     }
 
     function test(str, tag) {
-        var node = document.createElement("DIV");
+        var node = document.createElement("LI");
         node.innerHTML = str;
         document.getElementById(tag).appendChild(node);
     }
