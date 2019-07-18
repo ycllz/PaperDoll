@@ -9,20 +9,26 @@ function getLayers(pathArray) {
     } else {
         var source = findLayer(pathArray);
     }
-    
-    var Result = new Array;
-    for (var i = 0, len = source.layers.length; i < len; i++) {
-        Result.push(source.layers[i].name);
-    }
-    return Result;
+
+    if (source.layers.length == 0) {
+        return;
+    } else {
+        var Result = new Array;
+        for (var i = 0, len = source.layers.length; i < len; i++) {
+            Result.push(source.layers[i].name);
+        }
+        return Result;
+    }  
 }
 
 function findLayer(pathArray, layerArray) {
     if (layerArray == undefined) layerArray = app.activeDocument.layers;
     var layer = pathArray.shift();
     if (pathArray.length == 0) {
+        //alert("Found: " + layerArray.getByName(layer).name);
         return layerArray.getByName(layer);
     } else {
+        //alert("Searching: "+pathArray);
         return findLayer(pathArray, layerArray.getByName(layer).name);
     }
 }

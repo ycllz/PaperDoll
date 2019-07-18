@@ -19,21 +19,30 @@
     }
 
     function analyze(pathArray) {
+        //alert("Analyze: " + pathArray);
         csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
             var layers = result.split(',');
-            let path = [];
+            alert("Layers from " + pathArray + ": " + layers.length);
             for (var i = 0, len = layers.length; i < len; i++) {
-                path[0] = layers[i];
+                if (pathArray == undefined) {
+                    var path = [];
+                    path[0] = layers[i]
+                } else {
+                    var path = pathArray;
+                    path.push(layers[i]);
+                }
                 parseLayer(path);
             }
         });
     }
 
     function parseLayer(pathArray) {
+        alert("Parse: " + pathArray);
         var layer = pathArray[pathArray.length - 1];
         switch (true) {
             case layer.startsWith("$"):
                 csInterface.evalScript('makeVisible('+JSON.stringify(pathArray)+')');
+                //alert("Try: " + pathArray);
                 analyze(pathArray);
                 break;
             case layer.startsWith("%"):
@@ -44,6 +53,7 @@
                 break;
             case layer.startsWith("#"):
                 test("Choice","div_doc");
+                //alert("Choice: " + pathArray);
                 analyze(pathArray);
                 break;
             case layer.startsWith("*"):
