@@ -12,16 +12,17 @@
                 
         initColors();
         
-        document.getElementById('btn_analyze').addEventListener('click', analyze);
+        document.getElementById('btn_analyze').addEventListener('click', function() { analyze() });
     }
 
-    function analyze() {
-        csInterface.evalScript('getLayers()', function(result) {
+    function analyze(pathArray) {
+        alert(pathArray);
+        csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
             var layers = result.split(",");
-            let pathArray = [];
+            let path = [];
             for (var i = 0, len = layers.length; i < len; i++) {
-                pathArray[0] = layers[i];
-                parseLayer(pathArray);
+                path[0] = layers[i];
+                parseLayer(path);
             }
         });
     }
@@ -40,6 +41,10 @@
                 break;
             case layer.startsWith("#"):
                 test("Choice","div_doc");
+                analyze(pathArray);
+                break;
+            case layer.startsWith("*"):
+                test("Option","div_doc");
                 break;
         }
     }

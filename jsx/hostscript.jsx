@@ -20,10 +20,10 @@ function getLayers(pathArray) {
 function findLayer(pathArray, layerArray) {
     if (layerArray == undefined) layerArray = app.activeDocument.layers;
     var layer = pathArray.shift();
-    if (pathArray.length == undefined) {
+    if (pathArray.length == 0) {
         return layerArray.getByName(layer);
     } else {
-        return findLayer(pathArray, layerArray.getByName(layer));
+        return findLayer(pathArray, layerArray.getByName(layer).name);
     }
 }
 
