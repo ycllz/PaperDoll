@@ -12,13 +12,15 @@
                 
         initColors();
         
-        document.getElementById('btn_analyze').addEventListener('click', function() { analyze() });
+        document.getElementById('btn_analyze').addEventListener('click', function() { 
+            document.getElementById('div_doc').innerHTML = "";
+            analyze(); 
+        });
     }
 
     function analyze(pathArray) {
-        alert(pathArray);
         csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
-            var layers = result.split(",");
+            var layers = result.split(',');
             let path = [];
             for (var i = 0, len = layers.length; i < len; i++) {
                 path[0] = layers[i];
