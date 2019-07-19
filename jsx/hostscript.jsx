@@ -5,16 +5,16 @@
 
 function getLayers(pathArray) {
     //setup source
-    if (pathArray == []) {
+    if (pathArray = []) {
         //if empty array, source is main document
         source = app.activeDocument;
     } else {
         //if pathArray exists, source is layer it points to
         source = findLayer(pathArray);
     }
-
     if (source.layers == undefined) {
         //if there are no sub-layers, return undefined
+        alert('no layers in ' + source);
         return;
     } else {
         //create Result set
@@ -36,21 +36,15 @@ function getLayers(pathArray) {
 function findLayer(pathArray, layerArray) {
     //if called without layerArray parameter, default to main document layers
     if (layerArray == undefined) layerArray = app.activeDocument.layers;
-    //set layer to first item in pathArray
+    //set layer to first item in pathArray, pathArray loses first element and becomes 1 shorter
     var layer = pathArray.shift();
 
     if (pathArray.length == 0) {
         //if this was the only item in pathArray, then return the matching layer from layerArray
         return layerArray.getByName(layer);
     } else {
-        if (layer = "app.activeDocument") {
-            //this should always be the first element
-            //call the function again, looking for the next element in pathArray in main document layers
-            return findLayer(pathArray);
-        } else {
-            //call function again, looking for next element in pathArray in sublayers of current layer
-            return findLayer(pathArray, layerArray.getByName(layer).layers);
-        }
+        //call function again, looking for next element in pathArray in sublayers of current layer
+        return findLayer(pathArray, layerArray.getByName(layer).layers);
     }
 }
 

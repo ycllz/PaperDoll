@@ -18,7 +18,7 @@
             //clear "div_doc" contents
             document.getElementById('div_doc').innerHTML = "";
             //analyze main document layers
-            analyze([]); 
+            analyzeLayer([]); 
         });
     }
     
