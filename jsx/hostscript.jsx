@@ -5,7 +5,7 @@
 
 function getLayers(pathArray) {
     //setup source
-    if (pathArray = []) {
+    if (pathArray.length == 0) {
         //if empty array, source is main document
         source = app.activeDocument;
     } else {
@@ -14,7 +14,6 @@ function getLayers(pathArray) {
     }
     if (source.layers == undefined) {
         //if there are no sub-layers, return undefined
-        alert('no layers in ' + source);
         return;
     } else {
         //create Result set
@@ -52,6 +51,6 @@ function makeVisible(pathArray) {
     findLayer(pathArray).visible = true;
 }
 
-function test() {
-    alert("Test is working");
+function makeInvisible(pathArray) {
+    findLayer(pathArray).visible = false;
 }

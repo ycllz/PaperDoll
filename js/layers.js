@@ -2,7 +2,6 @@
 
 function analyzeLayer(pathArray) {
     //call getLayers function from hostscript.jsx
-    alert(JSON.stringify(pathArray));
     csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
         //split result into array
         var layers = result.split(',');
@@ -11,7 +10,6 @@ function analyzeLayer(pathArray) {
             var path = [];
         } else {
             //otherwise, set path = pathArray
-            alert(pathArray + ': ' + result);
             var path = pathArray;
         }
         //iterate each layer from result
@@ -27,28 +25,28 @@ function analyzeLayer(pathArray) {
 }
 
 function parseLayer(pathArray) {
+    //set layer to last element in path array
     var layer = pathArray[pathArray.length - 1];
+    //take action depending on first character of layer
     switch (true) {
         case layer.startsWith("$"):
             csInterface.evalScript('makeVisible('+JSON.stringify(pathArray)+')');
             analyzeLayer(pathArray.slice());
             break;
         case layer.startsWith("%"):
-            test("Toggle","div_doc");
+            test("Toggle: " + layer,"div_doc");
             break;
         case layer.startsWith("@"):
-            test("Linked","div_doc");
+            test("Linked: " + layer,"div_doc");
             break;
         case layer.startsWith("#"):
-            test("Choice","div_doc");
-            //alert("Choice: " + pathArray);
-            //analyze(pathArray);
+            test("Choice: " + layer,"div_doc");
+            analyzeLayer(pathArray.slice());
             break;
         case layer.startsWith("*"):
             test("Option: " + layer,"div_doc");
             break;
     }
-    //analyze(pathArray);
 }
 
 function test(str, tag) {
