@@ -4,32 +4,53 @@
 //Use for all code that deals with Photoshop elements
 
 function getLayers(pathArray) {
-    if (pathArray == undefined) {
-        var source = app.activeDocument;
+    //setup source
+    if (pathArray == []) {
+        //if empty array, source is main document
+        source = app.activeDocument;
     } else {
-        var source = findLayer(pathArray);
+        //if pathArray exists, source is layer it points to
+        source = findLayer(pathArray);
     }
 
-    if (source.layers.length == 0) {
+    if (source.layers == undefined) {
+        //if there are no sub-layers, return undefined
         return;
     } else {
+        //create Result set
         var Result = new Array;
+        //for each layer in source.layers
         for (var i = 0, len = source.layers.length; i < len; i++) {
-            Result.push(source.layers[i].name);
+            //add layers[i].name to end of pathArray
+            pathArray.push(source.layers[i].name);
+            //add current value of pathArray to Result set
+            Result.push(pathArray.slice());
+            //removes last element of new pathArray, resetting it to old value for next iteration
+            pathArray.pop();
         }
+        //return Result set
         return Result;
     }  
 }
 
 function findLayer(pathArray, layerArray) {
+    //if called without layerArray parameter, default to main document layers
     if (layerArray == undefined) layerArray = app.activeDocument.layers;
+    //set layer to first item in pathArray
     var layer = pathArray.shift();
+
     if (pathArray.length == 0) {
-        //alert("Found: " + layerArray.getByName(layer).name);
+        //if this was the only item in pathArray, then return the matching layer from layerArray
         return layerArray.getByName(layer);
     } else {
-        //alert("Searching: "+pathArray);
-        return findLayer(pathArray, layerArray.getByName(layer).name);
+        if (layer = "app.activeDocument") {
+            //this should always be the first element
+            //call the function again, looking for the next element in pathArray in main document layers
+            return findLayer(pathArray);
+        } else {
+            //call function again, looking for next element in pathArray in sublayers of current layer
+            return findLayer(pathArray, layerArray.getByName(layer).layers);
+        }
     }
 }
 
