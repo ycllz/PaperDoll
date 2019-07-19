@@ -1,6 +1,6 @@
 //Use for all code that sorts, analyzes, and parses layer names
 
-function analyzeLayer(pathArray) {
+function loadLayerGroup(pathArray) {
     //call getLayers function from hostscript.jsx
     csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
         //split result into array
@@ -17,36 +17,59 @@ function analyzeLayer(pathArray) {
             //append current layer to path
             path.push(layers[i]);
             //call parseLayer on current path
-            parseLayer(path.slice());
+            loadLayer(path.slice());
             //remove last element of path, returning it to previous value
             path.pop();
         }
     });
 }
 
-function parseLayer(pathArray) {
+function loadLayer(pathArray) {
     //set layer to last element in path array
     var layer = pathArray[pathArray.length - 1];
     //take action depending on first character of layer
     switch (true) {
         case layer.startsWith("$"):
-            csInterface.evalScript('makeVisible('+JSON.stringify(pathArray)+')');
-            analyzeLayer(pathArray.slice());
+            //Static - only make visible, don't add to format
+            makeVisible(pathArray);
+            loadLayerGroup(pathArray.slice());
             break;
         case layer.startsWith("%"):
-            test("Toggle: " + layer,"div_doc");
+            //Toggle
+            loadToggle(pathArray);
+            //test("Toggle: " + layer,"controls");
             break;
         case layer.startsWith("@"):
-            test("Linked: " + layer,"div_doc");
+            //Linked
+            makeVisible(pathArray);
+            test("Linked: " + layer,"controls");
             break;
         case layer.startsWith("#"):
-            test("Choice: " + layer,"div_doc");
-            analyzeLayer(pathArray.slice());
+            //Choice
+            makeVisible(pathArray);
+            test("Choice: " + layer,"controls");
+            loadLayerGroup(pathArray.slice());
             break;
         case layer.startsWith("*"):
-            test("Option: " + layer,"div_doc");
+            //Option - shouldn't be called
+            test("Option: " + layer,"controls");
             break;
     }
+}
+
+function isVisible(pathArray) {
+    csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
+        alert("visibility = " + result);
+        return result;
+    });
+}
+
+function makeVisible(pathArray) {
+    csInterface.evalScript('makeVisible(' + JSON.stringify(pathArray) + ')');
+}
+
+function makeInvisible(pathArray) {
+    csInterface.evalScript('makeInvisible(' + JSON.stringify(pathArray) + ')');
 }
 
 function test(str, tag) {

@@ -14,11 +14,11 @@
         initColors();
 
         //add listener to "Analyze" button
-        document.getElementById('btn_analyze').addEventListener('click', function() { 
+        document.getElementById("btn_analyze").addEventListener("click", function() { 
             //clear "div_doc" contents
-            document.getElementById('div_doc').innerHTML = "";
+            document.getElementById("controls").innerHTML = "";
             //analyze main document layers
-            analyzeLayer([]); 
+            loadLayerGroup([]); 
         });
     }
     

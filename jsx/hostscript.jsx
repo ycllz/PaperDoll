@@ -11,9 +11,13 @@ function getLayers(pathArray) {
     } else {
         //if pathArray exists, source is layer it points to
         source = findLayer(pathArray);
+        //return undefined if source layer is not visible
+        if (source.visible == false) {
+            return;
+        }
     }
     if (source.layers == undefined) {
-        //if there are no sub-layers, return undefined
+        //return undefined if there are no sub-layers
         return;
     } else {
         //create Result set
@@ -53,4 +57,8 @@ function makeVisible(pathArray) {
 
 function makeInvisible(pathArray) {
     findLayer(pathArray).visible = false;
+}
+
+function isVisible(pathArray) {
+    return findLayer(pathArray).visible;
 }
