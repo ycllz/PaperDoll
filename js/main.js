@@ -24,5 +24,6 @@
     
     //call initialization function
     init();
+    loadLayerGroup([]);
 }());
     

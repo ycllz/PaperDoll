@@ -71,11 +71,12 @@ function loadToggle(pathArray) {
 function loadLinked(pathArray) {
     //create path array variable to hold current value of pathArray
     var path = JSON.parse(JSON.stringify(pathArray.slice()));
-
+    //create button
     var node = document.createElement("BUTTON");
     node.innerHTML = pathArray[pathArray.length - 1].substr(1);
     node.addEventListener("click",function() {
         var path = JSON.parse(JSON.stringify(pathArray.slice()));
+        //call function to edit layer contents
         editLayerContents(path);
     })
     addControl(node, path);
@@ -96,15 +97,17 @@ function loadChoice(pathArray) {
 }
 
 function loadOption(pathArray) {
+    //create separate variable so changes don't apply to pathArray
     var group = JSON.parse(JSON.stringify(pathArray));
+    //remove last element, remaining array points to parent
     group.pop();
     //create checkbox element
     var node = document.createElement("INPUT");
     node.setAttribute("id",pathArray+"-ctl");
     node.setAttribute("type", "radio");
+    //set name to group so all radiobuttons are linked
     node.setAttribute("name",group);
     node.setAttribute("value",pathArray);
-    node.innerHTML = "";
     //create label element
     var label = document.createElement("LABEL");
     label.setAttribute("for",pathArray+"-ctl");
@@ -118,12 +121,17 @@ function loadOption(pathArray) {
         //call function to set checked property = layer visibility
         setToggle(result);
     });
+    //create event listener for value change
     node.addEventListener("change",function() {
+        //create static variable for group
         var grp = JSON.parse(JSON.stringify(group.slice()));
+        //check each connected radio button
         $("input[name='"+grp+"']").each(function () {
             if (this.checked == true) {
+                //if button is checked, make layer visible
                 makeVisible(this.getAttribute("value").split(","));
             } else {
+                //if button is not checked, make layer invisible
                 makeInvisible(this.getAttribute("value").split(","));
             }
         });
