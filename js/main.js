@@ -13,8 +13,8 @@
         //calls color initialization from themecolor.js
         initColors();
 
-        //add listener to "Analyze" button
-        document.getElementById("btn_analyze").addEventListener("click", function() { 
+        //add listener to "Refresh" button
+        document.getElementById("btn_refresh").addEventListener("click", function() { 
             //clear "div_doc" contents
             document.getElementById("controls").innerHTML = "";
             //analyze main document layers
@@ -24,6 +24,5 @@
     
     //call initialization function
     init();
-    loadLayerGroup([]);
 }());
     
