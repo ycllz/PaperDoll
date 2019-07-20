@@ -1,17 +1,21 @@
 //use for all code to load, unload, and listen to control objects
 function unloadObject(pathArray) {
     var obj = document.getElementById(pathArray);
+    //clear reference node of all interior controls
     obj.innerHTML = "";
 }
 
 function addControl(node, pathArray) {
+    //remove last element to reference parent
     pathArray.pop();
     if (pathArray.length == 0) {
+        //if remaining array is empty, set parent to "controls" element
         var parent = document.getElementById("controls");
     } else {
+        //set parent to element remaining array points to
         var parent = document.getElementById(pathArray);
     }
-
+    //add node control to parent
     parent.appendChild(node);
 }
 

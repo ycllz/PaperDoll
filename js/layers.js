@@ -1,30 +1,30 @@
 //Use for all code that sorts, analyzes, and parses layer names
 
 function isVisible(pathArray) {
+    //call jsx function to determine if layer is visible
     csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
-        alert("visibility = " + result);
         return result;
     });
 }
 
 function makeVisible(pathArray) {
+    //call jsx function to make referenced layer visible
     csInterface.evalScript('makeVisible(' + JSON.stringify(pathArray) + ')');
+    //load any sub-layers, if present
     loadLayerGroup(pathArray.slice());
 }
 
 function makeInvisible(pathArray) {
+    //unload any sub-layers, if present
+    // must be called first, as "getLayers" ignores invisible layers
     unloadLayerGroup(pathArray.slice());
+    //call jsx function to make referenced layer invisible
     csInterface.evalScript('makeInvisible(' + JSON.stringify(pathArray) + ')');
 }
 
 function editLayerContents(pathArray) {
+    //call jsx function to select referenced layer and edit its contents
     csInterface.evalScript('editLayerContents(' + JSON.stringify(pathArray) + ')');
-}
-
-function test(str, tag) {
-    var node = document.createElement("LI");
-    node.innerHTML = str;
-    document.getElementById(tag).appendChild(node);
 }
 
 function loadLayerGroup(pathArray) {
@@ -59,12 +59,12 @@ function loadLayer(pathArray) {
     //take action depending on first character of layer
     switch (true) {
         case layer.startsWith("$"):
-            //Static - only make visible, don't add to format (complete)
+            //Static - only make visible, don't add to format
             makeVisible(pathArray);
             loadLayerGroup(pathArray.slice());
             break;
         case layer.startsWith("%"):
-            //Toggle - create nested checkboxes to control layer visibility (complete)
+            //Toggle - create nested checkboxes to control layer visibility
             loadToggle(pathArray);
             break;
         case layer.startsWith("@"):
@@ -73,12 +73,12 @@ function loadLayer(pathArray) {
             loadLinked(pathArray.slice());
             break;
         case layer.startsWith("#"):
-            //Choice - create radio buttons to pick one layer to make visible
+            //Choice - create group heading for radio buttons
             makeVisible(pathArray);
             loadChoice(pathArray.slice());
             break;
         case layer.startsWith("*"):
-            //Option - shouldn't be called
+            //Option - create radio buttons to control layer visibility
             loadOption(pathArray.slice());
             break;
     }
@@ -109,6 +109,8 @@ function unloadLayerGroup(pathArray) {
 }
 
 function unloadLayer(pathArray) {
+    //remove last element to reference parent
     pathArray.pop();
+    //call unload function in objects.js
     unloadObject(pathArray.slice());
 }
