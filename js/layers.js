@@ -1,5 +1,32 @@
 //Use for all code that sorts, analyzes, and parses layer names
 
+function isVisible(pathArray) {
+    csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
+        alert("visibility = " + result);
+        return result;
+    });
+}
+
+function makeVisible(pathArray) {
+    csInterface.evalScript('makeVisible(' + JSON.stringify(pathArray) + ')');
+    loadLayerGroup(pathArray.slice());
+}
+
+function makeInvisible(pathArray) {
+    unloadLayerGroup(pathArray.slice());
+    csInterface.evalScript('makeInvisible(' + JSON.stringify(pathArray) + ')');
+}
+
+function editLayerContents(pathArray) {
+    csInterface.evalScript('editLayerContents(' + JSON.stringify(pathArray) + ')');
+}
+
+function test(str, tag) {
+    var node = document.createElement("LI");
+    node.innerHTML = str;
+    document.getElementById(tag).appendChild(node);
+}
+
 function loadLayerGroup(pathArray) {
     //call getLayers function from hostscript.jsx
     csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
@@ -11,6 +38,8 @@ function loadLayerGroup(pathArray) {
         } else {
             //otherwise, set path = pathArray
             var path = pathArray;
+            //if last element of pathArray is a Choice, sort layers array
+            if (pathArray[pathArray.length-1].startsWith("#")) layers.sort();
         }
         //iterate each layer from result
         for (var i = 0, len = layers.length; i < len; i++) {
@@ -30,50 +59,56 @@ function loadLayer(pathArray) {
     //take action depending on first character of layer
     switch (true) {
         case layer.startsWith("$"):
-            //Static - only make visible, don't add to format
+            //Static - only make visible, don't add to format (complete)
             makeVisible(pathArray);
             loadLayerGroup(pathArray.slice());
             break;
         case layer.startsWith("%"):
-            //Toggle
+            //Toggle - create nested checkboxes to control layer visibility (complete)
             loadToggle(pathArray);
-            //test("Toggle: " + layer,"controls");
             break;
         case layer.startsWith("@"):
-            //Linked
+            //Linked - create button to open linked layer to edit contents
             makeVisible(pathArray);
-            test("Linked: " + layer,"controls");
+            loadLinked(pathArray.slice());
             break;
         case layer.startsWith("#"):
-            //Choice
+            //Choice - create radio buttons to pick one layer to make visible
             makeVisible(pathArray);
-            test("Choice: " + layer,"controls");
-            loadLayerGroup(pathArray.slice());
+            loadChoice(pathArray.slice());
             break;
         case layer.startsWith("*"):
             //Option - shouldn't be called
-            test("Option: " + layer,"controls");
+            loadOption(pathArray.slice());
             break;
     }
 }
 
-function isVisible(pathArray) {
-    csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
-        alert("visibility = " + result);
-        return result;
+function unloadLayerGroup(pathArray) {
+    //call getLayers function from hostscript.jsx
+    csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
+        //split result into array
+        var layers = result.split(',');
+        if (pathArray.length == 0) {
+            //if pathArray is empty, set path to empty array
+            var path = [];
+        } else {
+            //otherwise, set path = pathArray
+            var path = pathArray;
+        }
+        //iterate each layer from result
+        for (var i = 0, len = layers.length; i < len; i++) {
+            //append current layer to path
+            path.push(layers[i]);
+            //call parseLayer on current path
+            unloadLayer(path.slice());
+            //remove last element of path, returning it to previous value
+            path.pop();
+        }
     });
 }
 
-function makeVisible(pathArray) {
-    csInterface.evalScript('makeVisible(' + JSON.stringify(pathArray) + ')');
-}
-
-function makeInvisible(pathArray) {
-    csInterface.evalScript('makeInvisible(' + JSON.stringify(pathArray) + ')');
-}
-
-function test(str, tag) {
-    var node = document.createElement("LI");
-    node.innerHTML = str;
-    document.getElementById(tag).appendChild(node);
+function unloadLayer(pathArray) {
+    pathArray.pop();
+    unloadObject(pathArray.slice());
 }

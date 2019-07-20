@@ -62,3 +62,10 @@ function makeInvisible(pathArray) {
 function isVisible(pathArray) {
     return findLayer(pathArray).visible;
 }
+
+function editLayerContents(pathArray) {
+    app.activeDocument.activeLayer = findLayer(pathArray);
+    var idplacedLayerEditContents = stringIDToTypeID( "placedLayerEditContents" );
+    var desc73 = new ActionDescriptor();
+    executeAction( idplacedLayerEditContents, desc73, DialogModes.NO );
+}
