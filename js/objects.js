@@ -100,12 +100,12 @@ function loadChoice(pathArray) {
     })
     path = JSON.parse(JSON.stringify(pathArray.slice()));
     addControl(obj, path);
-
+    /*
     var sub = document.createElement("DIV");
     sub.setAttribute("id", pathArray + "-sub");
     sub.setAttribute("class", "controlbox");
     path.pop();
-    addControl(sub, path);
+    addControl(sub, path);*/
 }
 
 function loadOption(pathArray) {
@@ -140,11 +140,8 @@ function loadOption(pathArray) {
         var grp = JSON.parse(JSON.stringify(group.slice()));
         //check each connected radio button
         $("input[name='" + grp + "']").each(function() {
-            var div = this.closest("div.active").nextSibling;
-            div.innerHTML = ""
             if (this.checked == true) {
                 //if button is checked, make layer visible
-                div.setAttribute("id", this.getAttribute("value").split(","))
                 makeVisible(this.getAttribute("value").split(","));
             } else {
                 //if button is not checked, make layer invisible
@@ -159,7 +156,11 @@ function loadOption(pathArray) {
     sub.appendChild(node);
     sub.appendChild(label);
     //add finished control to panel
-    addControl(sub, pathArray);
+    path = JSON.parse(JSON.stringify(pathArray.slice()));
+    addControl(sub, path);
+    path.pop()
+    addControl(obj, path);
+
 
     function setToggle(result) {
         //result returns as string instead of boolean for some reason
