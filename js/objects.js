@@ -156,10 +156,8 @@ function loadOption(pathArray) {
     sub.appendChild(node);
     sub.appendChild(label);
     //add finished control to panel
-    path = JSON.parse(JSON.stringify(pathArray.slice()));
-    addControl(sub, path);
-    path.pop()
-    addControl(obj, path);
+    addControl(sub, pathArray.slice());
+    document.getElementById(node.getAttribute("name")).parentNode.appendChild(obj);
 
 
     function setToggle(result) {

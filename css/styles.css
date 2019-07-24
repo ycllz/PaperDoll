@@ -109,7 +109,7 @@ header {
     background: #999;
 }
 
-.active .panel {
+.active>.panel {
     display: block !important;
 }
 
