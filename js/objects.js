@@ -20,50 +20,45 @@ function addControl(node, pathArray) {
 }
 
 function loadToggle(pathArray) {
-    //create unordered list container for any sub-layers
-    var obj = document.createElement("UL");
-    obj.setAttribute("id",pathArray);
-    obj.setAttribute("style","list-style: none");
-    //create checkbox element
-    var node = document.createElement("INPUT");
-    node.setAttribute("id",pathArray+"-ctl");
-    node.setAttribute("type", "checkbox");
-    node.innerHTML = "";
-    //create label element
-    var label = document.createElement("LABEL");
-    label.setAttribute("for",pathArray+"-ctl");
-    label.innerHTML = pathArray[pathArray.length - 1].substr(1);
-    //determine if reference layer is visible
-    csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
-        //call function to set checked property = layer visibility
-        setToggle(result);
-    });
-    node.addEventListener("change",function() {
+    //create div for object
+    var obj = document.createElement("DIV");
+    //create checkbox control
+    var button = document.createElement("BUTTON");
+    button.setAttribute("id", pathArray + "-ctl");
+    button.setAttribute("class", "toggle");
+    button.innerHTML = pathArray[pathArray.length - 1].substr(1);
+    //add toggle event listener
+    button.addEventListener("click", function() {
         var path = JSON.parse(JSON.stringify(pathArray.slice()));
-        if(this.checked == true) {
+        this.classList.toggle("active");
+        if (this.classList.contains("active")) {
+            this.attr
             makeVisible(path);
         } else {
             makeInvisible(path);
         }
     });
-
-    //create list item to hold checkbox
-    var sub = document.createElement("LI");
-    //sub: <input/><label/><ul/>
-    sub.appendChild(node);
-    sub.appendChild(label);
-    sub.appendChild(obj);
+    //determine if reference layer is visible
+    csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
+        //call function to set checked property = layer visibility
+        setToggle(result);
+    });
+    var sub = document.createElement("DIV");
+    sub.setAttribute("id", pathArray);
+    sub.setAttribute("class", "controlbox");
+    obj.appendChild(button);
+    obj.appendChild(sub);
     //add finished control to panel
-    addControl(sub, pathArray.slice());
+    addControl(obj, pathArray.slice());
 
     function setToggle(result) {
         //result returns as string instead of boolean for some reason
         if (result == "true") {
-            node.checked = true;
+            obj.classList.add("active");
             //load sub-layers to panel, if any exist
             loadLayerGroup(pathArray.slice());
         } else {
-            node.checked = false;
+            obj.classList.remove("active");
         }
     }
 }
@@ -71,29 +66,46 @@ function loadToggle(pathArray) {
 function loadLinked(pathArray) {
     //create path array variable to hold current value of pathArray
     var path = JSON.parse(JSON.stringify(pathArray.slice()));
+    //create div
+    var obj = document.createElement("DIV");
     //create button
     var node = document.createElement("BUTTON");
+    node.setAttribute("class", "linked")
     node.innerHTML = pathArray[pathArray.length - 1].substr(1);
-    node.addEventListener("click",function() {
+    node.addEventListener("click", function() {
         var path = JSON.parse(JSON.stringify(pathArray.slice()));
         //call function to edit layer contents
         editLayerContents(path);
     })
-    addControl(node, path);
+    obj.appendChild(node);
+    addControl(obj, path);
 }
 
 function loadChoice(pathArray) {
     //create unordered list container for any sub-layers
-    var obj = document.createElement("UL");
-    obj.setAttribute("id",pathArray);
-    obj.setAttribute("style","list-style: none");
-    //create list item to hold checkbox
-    var sub = document.createElement("LI");
-    sub.innerHTML = pathArray[pathArray.length-1].substr(1);
+    var obj = document.createElement("DIV");
+    obj.setAttribute("class", "active");
+    var button = document.createElement("BUTTON");
+    button.setAttribute("class", "accordion");
+    button.innerHTML = pathArray[pathArray.length - 1].substr(1);
+    var panel = document.createElement("DIV");
+    panel.setAttribute("id", pathArray);
+    panel.setAttribute("class", "panel");
     //sub: <ul/>
-    sub.appendChild(obj);
+    obj.append(button);
+    obj.append(panel);
     //add finished control to panel
-    addControl(sub, pathArray.slice());
+    button.addEventListener("click", function() {
+        this.parentNode.classList.toggle("active");
+    })
+    path = JSON.parse(JSON.stringify(pathArray.slice()));
+    addControl(obj, path);
+
+    var sub = document.createElement("DIV");
+    sub.setAttribute("id", pathArray + "-sub");
+    sub.setAttribute("class", "controlbox");
+    path.pop();
+    addControl(sub, path);
 }
 
 function loadOption(pathArray) {
@@ -103,32 +115,36 @@ function loadOption(pathArray) {
     group.pop();
     //create checkbox element
     var node = document.createElement("INPUT");
-    node.setAttribute("id",pathArray+"-ctl");
+    node.setAttribute("id", pathArray + "-ctl");
     node.setAttribute("type", "radio");
+    node.setAttribute("style", "visibility: hidden;");
     //set name to group so all radiobuttons are linked
-    node.setAttribute("name",group);
-    node.setAttribute("value",pathArray);
+    node.setAttribute("name", group);
+    node.setAttribute("value", pathArray);
     //create label element
     var label = document.createElement("LABEL");
-    label.setAttribute("for",pathArray+"-ctl");
+    label.setAttribute("for", pathArray + "-ctl");
     label.innerHTML = pathArray[pathArray.length - 1].substr(1);
     //create unordered list container for any sub-layers
-    var obj = document.createElement("UL");
-    obj.setAttribute("id",pathArray);
-    obj.setAttribute("style","list-style: none");
+    var obj = document.createElement("DIV");
+    obj.setAttribute("id", pathArray);
+    obj.setAttribute("class", "controlbox");
     //determine if reference layer is visible
     csInterface.evalScript('isVisible(' + JSON.stringify(pathArray) + ')', function(result) {
         //call function to set checked property = layer visibility
         setToggle(result);
     });
     //create event listener for value change
-    node.addEventListener("change",function() {
+    node.addEventListener("change", function() {
         //create static variable for group
         var grp = JSON.parse(JSON.stringify(group.slice()));
         //check each connected radio button
-        $("input[name='"+grp+"']").each(function () {
+        $("input[name='" + grp + "']").each(function() {
+            var div = this.closest("div.active").nextSibling;
+            div.innerHTML = ""
             if (this.checked == true) {
                 //if button is checked, make layer visible
+                div.setAttribute("id", this.getAttribute("value").split(","))
                 makeVisible(this.getAttribute("value").split(","));
             } else {
                 //if button is not checked, make layer invisible
@@ -138,13 +154,12 @@ function loadOption(pathArray) {
     });
 
     //create list item to hold checkbox
-    var sub = document.createElement("LI");
+    var sub = document.createElement("DIV");
     //sub: <input/><label/><ul/>
     sub.appendChild(node);
     sub.appendChild(label);
-    sub.appendChild(obj);
     //add finished control to panel
-    addControl(sub, pathArray.slice());
+    addControl(sub, pathArray);
 
     function setToggle(result) {
         //result returns as string instead of boolean for some reason

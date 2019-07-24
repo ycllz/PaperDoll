@@ -1,38 +1,41 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-        
-<link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" />
-<link id="hostStyle" rel="stylesheet" href="css/styles.css"/>
 
-<title>Paperdoll</title>
+<head>
+    <meta charset="utf-8">
+
+    <link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" />
+    <link id="hostStyle" rel="stylesheet" href="css/styles.css" />
+
+    <title>Paperdoll</title>
 </head>
 
 <body require-nodejs class="hostElt">
 
-    <div id="content">        
-        
-        <div>                
-            <button id="btn_refresh" class="btn-big ccstyle hostFontSize">Refresh</button>                
-            <ul id="controls" style="list-style: none; padding: 0;">
-            </ul>
-        </div>   
-        
-    </div>
-    
-    <!-- These are debugging shortcuts.  Class debuglink items only appear in debug mode  -->
-    <span class="debuglink" id="reload">Reload</span>
-    <span class="debuglink" id="debug">Debug</span>
-    <span class="debuglink" id="sources">Sources</span>
-    
-    <script src="js/libs/CSInterface.js"></script>
-    <script src="js/libs/jquery-2.0.2.min.js"></script>
+    <div id="content">
+        <header>
+            <nav>
+                <button id="btn_refresh" class="nav_btn">Refresh</button>
+            </nav>
+        </header>
+        <div id="controls" class="controlbox">
+        </div>
 
-    <script src="js/themecolors.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/layers.js"></script>
-    <script src="js/objects.js"></script>
-       
+    </div>
+    <footer style="margin-top:10px;">
+        <!-- These are debugging shortcuts.  Class debuglink items only appear in debug mode  -->
+        <span class="debuglink" id="reload">Reload</span>
+        <span class="debuglink" id="debug">Debug</span>
+        <span class="debuglink" id="sources">Sources</span>
+
+        <script src="js/libs/CSInterface.js"></script>
+        <script src="js/libs/jquery-2.0.2.min.js"></script>
+
+        <script src="js/themecolors.js"></script>
+        <script src="js/layers.js"></script>
+        <script src="js/objects.js"></script>
+        <script src="js/main.js"></script>
+    </footer>
 </body>
+
 </html>

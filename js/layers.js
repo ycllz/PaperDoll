@@ -29,7 +29,7 @@ function editLayerContents(pathArray) {
 
 function loadLayerGroup(pathArray) {
     //call getLayers function from hostscript.jsx
-    csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
+    csInterface.evalScript('getLayers(' + JSON.stringify(pathArray) + ')', function(result) {
         //split result into array
         var layers = result.split(',');
         if (pathArray.length == 0) {
@@ -39,7 +39,7 @@ function loadLayerGroup(pathArray) {
             //otherwise, set path = pathArray
             var path = pathArray;
             //if last element of pathArray is a Choice, sort layers array
-            if (pathArray[pathArray.length-1].startsWith("#")) layers.sort();
+            if (pathArray[pathArray.length - 1].startsWith("#")) layers.sort();
         }
         //iterate each layer from result
         for (var i = 0, len = layers.length; i < len; i++) {
@@ -86,7 +86,7 @@ function loadLayer(pathArray) {
 
 function unloadLayerGroup(pathArray) {
     //call getLayers function from hostscript.jsx
-    csInterface.evalScript('getLayers('+JSON.stringify(pathArray)+')', function(result) {
+    csInterface.evalScript('getLayers(' + JSON.stringify(pathArray) + ')', function(result) {
         //split result into array
         var layers = result.split(',');
         if (pathArray.length == 0) {

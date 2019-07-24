@@ -1,51 +1,166 @@
 /*Your styles*/
 
- body {
+
+/*Main Content*/
+
+body {
     margin: 10px;
 }
 
-
-#content {
-    margin-right:auto;
-    margin-left:auto;
-    vertical-align:middle;
-    width:100%;
+header {
+    margin-bottom: 10px;
 }
 
-
-#btn_test{
+#content {
+    margin-right: auto;
+    margin-left: auto;
+    vertical-align: middle;
     width: 100%;
 }
 
 
+/*Navigation Buttons*/
+
+.nav_btn {
+    color: #444;
+    background-color: #eee;
+    font-size: 0.75em;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 5px;
+    width: auto;
+    text-align: center;
+    border: none;
+    border-radius: 0px;
+    outline: none;
+    transition: 0.4s;
+}
+
+.nav_btn:hover {
+    background-color: #aaa;
+}
+
+
+/*Controls*/
+
+#controls div,
+.controlbox {
+    width: 100%;
+    padding: 0px 10px;
+    display: block;
+}
+
+.controlbox:empty {
+    display: none !important;
+}
+
+
+/*Toggle*/
+
+.toggle {
+    background: #444;
+    color: #eee;
+    display: block;
+    width: 100%;
+    border-radius: 0px;
+}
+
+.toggle.active {
+    background: #eee;
+    color: #444;
+}
+
+
+/*Linked*/
+
+.linked {
+    background: #ddd;
+    display: block;
+    width: 100%;
+}
+
+
+/*Option, Choice*/
+
+.accordion {
+    cursor: pointer;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    border-radius: 0px;
+}
+
+.panel {
+    display: none !important;
+    padding: 0px 15px;
+    columns: 2;
+    column-gap: 0px;
+}
+
+.panel div:nth-child(odd) {
+    padding: 0px;
+    width: auto;
+    background: #666;
+}
+
+.panel div:nth-child(even) {
+    padding: 0px;
+    width: auto;
+    background: #999;
+}
+
+.active .panel {
+    display: block !important;
+}
+
+input[type="radio"],
+label {
+    white-space: nowrap;
+}
 
 
 /*
 Those classes will be edited at runtime with values specified
 by the settings of the CC application
 */
-.hostFontColor{}
-.hostFontFamily{}
-.hostFontSize{}
+
+.hostFontColor {}
+
+.hostFontFamily {}
+
+.hostFontSize {}
+
 
 /*font family, color and size*/
-.hostFont{}
+
+.hostFont {}
+
+
 /*background color*/
-.hostBgd{}
+
+.hostBgd {}
+
+
 /*lighter background color*/
-.hostBgdLight{}
+
+.hostBgdLight {}
+
+
 /*darker background color*/
-.hostBgdDark{}
+
+.hostBgdDark {}
+
+
 /*background color and font*/
-.hostElt{}
 
+.hostElt {}
 
-.hostButton{
-    border:1px solid;
-    border-radius:2px;
-    height:20px;
-    vertical-align:bottom;
-    font-family:inherit;
-    color:inherit;
-    font-size:inherit;
+.hostButton {
+    border: 1px solid;
+    border-radius: 2px;
+    height: 20px;
+    vertical-align: bottom;
+    font-family: inherit;
+    color: inherit;
+    font-size: inherit;
 }
