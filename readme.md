@@ -14,21 +14,13 @@ This is an extension for Adobe Photoshop CC, which must be installed for this co
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+A step by step series of examples that tell you how to download this extension and get it working in Photoshop
 
-Say what the step will be
+#### Via GitHub (requires GitHub desktop or similar)
 
-```
-Give the example
-```
+Select the button above labeled "Clone This Repository" - this way, if any changes are made, your files will update automatically.
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+When prompted for the "Local Path", browse to "C:\Users\*your user name*\AppData\Roaming\Adobe\CEP\extensions\PaperDoll", creating subfolders as needed.
 
 ### Using in Photoshop
 
