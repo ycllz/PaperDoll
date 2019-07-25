@@ -21,19 +21,25 @@ header {
 
 /*Navigation Buttons*/
 
+nav {
+    background-color: #444;
+}
+
 .nav_btn {
     color: #444;
     background-color: #eee;
     font-size: 0.75em;
     cursor: pointer;
     padding: 5px 10px;
-    margin-right: 5px;
-    width: auto;
     text-align: center;
     border: none;
     border-radius: 0px;
+    /*transition: 0.4s;*/
+    display: inline;
+}
+
+.nav_btn:active {
     outline: none;
-    transition: 0.4s;
 }
 
 .nav_btn:hover {
@@ -46,7 +52,7 @@ header {
 #controls div,
 .controlbox {
     width: 100%;
-    padding: 0px 10px;
+    padding: 0px 10px 5px;
     display: block;
 }
 

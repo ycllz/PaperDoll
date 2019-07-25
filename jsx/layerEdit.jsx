@@ -5,6 +5,7 @@ function renameLayer(layer, prefix, split, index) {
     }
     curr = prefix + curr;
     layer.name = curr;
+    layer.visible = false;
 }
 
 var options = app.activeDocument.activeLayer.layers;

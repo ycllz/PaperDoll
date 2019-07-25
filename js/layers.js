@@ -50,6 +50,9 @@ function loadLayerGroup(pathArray) {
             //remove last element of path, returning it to previous value
             path.pop();
         }
+        //check option group here
+        //iterate through options until one is selected - make all following invisible
+        //if none selected, select first option
     });
 }
 
