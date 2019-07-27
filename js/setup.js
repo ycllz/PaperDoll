@@ -1,3 +1,3 @@
-function makeChoice() {
-
+function prefixOptions() {
+    csInterface.evalScript("prefixOptions()");
 }

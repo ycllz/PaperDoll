@@ -69,3 +69,24 @@ function editLayerContents(pathArray) {
     var desc73 = new ActionDescriptor();
     executeAction( idplacedLayerEditContents, desc73, DialogModes.NO );
 }
+
+function renameLayer(layer, prefix, split, index) {
+    var curr = layer.name;
+    if (split!=null) {
+        curr = curr.split(split)[index];
+    }
+    if(curr.substring(0,1)!=prefix) curr = prefix + curr;
+    layer.name = curr;
+    layer.visible = false;
+}
+
+function prefixOptions() {
+    var selected = app.activeDocument.activeLayer;
+    if(selected.name.substring(0,1)!="#") selected.name = "#" + selected.name;
+
+    var options = selected.layers;
+
+    for (i = 0, len = options.length; i<len; i++) {
+        renameLayer(options[i],"*","_",0);
+    }
+}

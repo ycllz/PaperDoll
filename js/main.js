@@ -3,26 +3,30 @@
 
 //Use for all code that updates HTML frame
 
-(function () {
+(function() {
     'use strict';
     // create interface variable
     var csInterface = new CSInterface();
-    
+
     //initialization function
     function init() {
         //calls color initialization from themecolor.js
         initColors();
 
         //add listener to "Refresh" button
-        document.getElementById("btn_refresh").addEventListener("click", function() { 
+        document.getElementById("btn_refresh").addEventListener("click", function() {
             //clear "div_doc" contents
             document.getElementById("controls").innerHTML = "";
             //analyze main document layers
-            loadLayerGroup([]); 
+            loadLayerGroup([]);
         });
+
+        document.getElementById("btn_choice").addEventListener("click", function() {
+            prefixOptions();
+        });
+
     }
-    
+
     //call initialization function
     init();
 }());
-    

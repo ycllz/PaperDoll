@@ -58,7 +58,6 @@
                 	<Parameter>--enable-nodejs</Parameter>
                	</CEFCommandLine>
 				<ScriptPath>./jsx/hostscript.jsx</ScriptPath>
-				<ScriptPath>./jsx/layerEdit.jsx</ScriptPath>
 				</Resources>
 				<Lifecycle>
 					<AutoVisible>true</AutoVisible>
